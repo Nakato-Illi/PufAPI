@@ -56,8 +56,8 @@ public class PlayerService {
                 System.out.println(j);
             } else {
                 j.addProperty("playername", playername);
+                writeToDB(playername);
             }
-            writeToDB(playername);
             return j.toString();
         } catch (SQLException e) {
             e.printStackTrace();
