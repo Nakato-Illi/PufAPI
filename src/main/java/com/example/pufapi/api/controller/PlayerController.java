@@ -5,7 +5,6 @@ import com.example.pufapi.api.model.Player;
 import com.example.pufapi.api.model.Playerhistory;
 import com.example.pufapi.service.PlayerService;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +13,6 @@ import java.util.Optional;
 
 @RestController
 public class PlayerController {
-
     private PlayerService playerservice;
 
     public PlayerController(PlayerService playerservice) {
@@ -49,7 +47,7 @@ public class PlayerController {
     @PutMapping("/history")
     public boolean setHistory(@RequestBody String rb) {
         Playerhistory p = new Gson().fromJson(rb, Playerhistory.class);
-        System.out.println("------------------------"+rb);
+        System.out.println("------------------------" + rb);
         boolean success = playerservice.writePlayerHistory(p);
         return success;
     }
@@ -60,7 +58,7 @@ public class PlayerController {
         return success;
     }
 
-    @GetMapping ("/history")
+    @GetMapping("/history")
     public String getHistory(@RequestParam String playername) {
         Optional history = playerservice.getPlayerHistory(playername);
         if (history.isPresent()) {
@@ -69,11 +67,11 @@ public class PlayerController {
         return null;
     }
 
-    @PostMapping ("/playername")
+    @PostMapping("/playername")
     public String valiPlayer(@Validated @RequestBody String rb) throws SQLException {
         Optional player = Optional.empty();
         Player p = new Gson().fromJson(rb, Player.class);
-        System.out.println("------------------------"+rb);
+        System.out.println("------------------------" + rb);
         player = player.of(playerservice.validatePlayer(p.getPlayername()));
         if (player.isPresent()) {
             return (String) player.get();
